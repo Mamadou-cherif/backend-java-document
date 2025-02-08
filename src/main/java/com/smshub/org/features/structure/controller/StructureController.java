@@ -26,9 +26,9 @@ public class StructureController {
 
 
     @PostMapping
-    public ApiResponse<StructureDto> create(@RequestBody @Validated CreateCommand createStructureCommand){
+    public ApiResponse<StructureDto> create(@RequestBody @Validated CreateCommand createServiceCommand){
         return ApiResponse. created(
-                this.structureConverter.convert(this.structureService.create(this.structureConverter.create(createStructureCommand))),
+                this.structureConverter.convert(this.structureService.create(this.structureConverter.create(createServiceCommand))),
                 "Structure crée avec succès"
         );
     }
@@ -65,7 +65,7 @@ public class StructureController {
         Structure structure = this.structureService.get(id);
         this.structureService.delete(structure);
         return ApiResponse.success(
-                String.format("Structure de ID : %s supprimé avec succès", id)
+                String.format("Service de ID : %s supprimé avec succès", id)
         );
     }
 }

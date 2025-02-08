@@ -1,9 +1,9 @@
-package com.smshub.org.features.structure.converter;
+package com.smshub.org.features.service.converter;
 
-import com.smshub.org.features.structure.commands.CreateCommand;
-import com.smshub.org.features.structure.commands.UpdateCommand;
-import com.smshub.org.features.structure.dtos.StructureDto;
-import com.smshub.org.features.structure.model.Structure;
+import com.smshub.org.features.service.commands.CreateCommand;
+import com.smshub.org.features.service.commands.UpdateCommand;
+import com.smshub.org.features.service.dtos.ServiceDto;
+import com.smshub.org.features.service.model.Services;
 import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import com.smshub.org.features.utilisateur.repository.UtilisateurRepository;
@@ -17,17 +17,17 @@ import java.util.Optional;
 
 @Component
 @AllArgsConstructor
-public class StructureConverter {
+public class ServiceConverter {
     private final UtilisateurRepository utilisateurRepository;
 
-    public StructureDto convert(Structure structure) {
-        return StructureDto
+    public ServiceDto convert(Services service) {
+        return ServiceDto
                 .builder()
-                .id(structure.getId())
-                .responsable(convertUtilisateurToDto(structure.getResponsable())) // Convertir le responsable
-                .name(structure.getName())
-                .adresse(structure.getAdresse())
-                .personnel(structure.getPersonnels())
+                .id(service.getId())
+                .responsable(convertUtilisateurToDto(service.getResponsable())) // Convertir le responsable
+                .name(service.getName())
+                .adresse(service.getAdresse())
+                .personnel(service.getPersonnels())
                 .build();
     }
 
@@ -43,14 +43,14 @@ public class StructureConverter {
     }
 
 
-    public Structure create(CreateCommand createCommand){
+    public Services create(CreateCommand createCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(createCommand.responsable());
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(createCommand.personnel());
 
         if (user.isEmpty()) {
             return null;
         }
-        return Structure
+        return Services
                 .builder()
                 .responsable(user.get())
                 .name(createCommand.name())
@@ -69,14 +69,14 @@ public class StructureConverter {
         return users;
     }
 
-    public Structure update(UpdateCommand updateCommand){
+    public Services update(UpdateCommand updateCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(updateCommand.responsable());
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(updateCommand.personnel());
 
         if (user.isEmpty()) {
             return null;
         }
-        return Structure
+        return Services
                 .builder()
                 .id(updateCommand.id())
                 .responsable(user.get())
