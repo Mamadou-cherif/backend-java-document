@@ -1,0 +1,62 @@
+### CREATE - Créer une nouvelle organisation
+POST http://127.0.0.1:8088/api/v1/organizations
+Content-Type: application/json
+
+{
+  "name": "ACME Corporation",
+  "phone": "+33123456789",
+  "address": "123 rue de la Paix, 75000 Paris"
+}
+
+### READ - Obtenir toutes les organisations
+GET http://127.0.0.1:8088/api/v1/organizations
+
+### READ - Obtenir une organisation par ID
+GET http://127.0.0.1:8088/api/v1/organizations/11
+
+### UPDATE - Mettre à jour une organisation
+PUT http://127.0.0.1:8088/api/v1/organizations/1
+Content-Type: application/json
+
+{
+  "name": "DIGITALIS",
+  "phone": "+33987654321",
+  "address": "456 avenue des Champs-Élysées, 75008 Paris"
+}
+
+### UPDATE - Mise à jour partielle d'une organisation
+PATCH http://127.0.0.1:8088/api/v1/organizations/1
+Content-Type: application/json
+
+{
+  "phone": "+224666009988"
+}
+
+### DELETE - Supprimer une organisation
+DELETE http://127.0.0.1:8088/api/v1/organizations/52
+
+### CREATE - Test avec données invalides
+POST http://127.0.0.1:8088/api/v1/organizations
+Content-Type: application/json
+
+{
+  "name": "ETI",
+  "phone": "invalid-phone",
+  "address": ""
+}
+
+### READ - Test avec ID inexistant
+GET http://127.0.0.1:8088/api/v1/organizations/999
+
+### UPDATE - Test mise à jour avec ID inexistant
+PUT http://127.0.0.1:8088/api/v1/organizations/999
+Content-Type: application/json
+
+{
+  "name": "ACME Corporation",
+  "phone": "+33123456789",
+  "address": "123 rue de la Paix, 75000 Paris"
+}
+
+### DELETE - Test suppression avec ID inexistant
+DELETE http://127.0.0.1:8088/api/v1/organizations/999

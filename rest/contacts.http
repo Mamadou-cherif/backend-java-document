@@ -1,0 +1,74 @@
+### Tests CRUD pour les contacts
+@baseUrl = http://127.0.0.1:8088/api/v1/contacts
+
+### CREATE - Créer un nouveau contact (Cas valide)
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "fullName": "John Doe",
+  "address": "123 rue de Paris, 75001 Paris",
+  "email": "john.doe@example.com",
+  "phone": "+33123456789"
+}
+
+### CREATE - Test validation format email invalide
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "fullName": "John Doe",
+  "address": "123 rue de Paris",
+  "email": "invalid-email",
+  "phone": "+33123456789"
+}
+
+### CREATE - Test validation téléphone invalide
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "fullName": "John Doe",
+  "address": "123 rue de Paris",
+  "email": "john.doe@example.com",
+  "phone": "123456"
+}
+
+
+### READ - Obtenir tous les contacts
+GET {{baseUrl}}
+
+### READ - Obtenir un contact par ID (existant)
+GET {{baseUrl}}/1
+
+
+### UPDATE - Mettre à jour un contact
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+  "fullName": "John Doe Updated",
+  "address": "456 avenue des Champs-Élysées, 75008 Paris",
+  "email": "john.doe.updated@example.com",
+  "phone": "+33987654321"
+}
+
+### DELETE - Supprimer un contact (existant)
+DELETE {{baseUrl}}/1
+
+
+### FILE - Enregistrer plusieurs contacts avec un fichier excel
+POST http://127.0.0.1:8088/api/v1/contacts/file
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="contact1.xlsx"
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+< docs/contacts50.xlsx
+------WebKitFormBoundary
+Content-Disposition: form-data; name="tags"
+
+tag1,tag2,tag3
+------WebKitFormBoundary--
+

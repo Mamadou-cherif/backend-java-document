@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: document_manager
+  datasource:
+    url: jdbc:postgresql://localhost:5432/docmanager
+    username: postgres
+    password: postgres
+    name: smshub
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  rabbitmq:
+    virtual-host: smshub
+    host: localhost
+    port: 5672
+    username: smshub_user
+    password: 123456
+
+server:
+  port: 8090
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  override-with-generic-response: false
+  packagesToScan: com.smshub.org
+
+resilience4j:
+  ratelimiter:
+    instances:
+      smsRateLimiter:
+        limitForPeriod: 4
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0
+orange:
+  sms:
+    client:
+      id: ph53VawqfsAxnexc9VRsm1Q2Gh57EZDl
+      secret: nrYAFbVr6Zyt0ieWjH4PYnGPvEkAXokGyZeBTqkXkxnV
+    auth:
+      header: cGg1M1Zhd3Fmc0F4bmV4YzlWUnNtMVEyR2g1N0VaRGw6bnJZQUZiVnI2Wnl0MGllV2pINFBZbkdQdkVrQVhva0d5WmVCVHFrWGt4blY=
+    sender:
+      number: 224623684286
+    token:
+      url: https://api.orange.com/oauth/v3/token
+    send:
+      url: https://api.orange.com/smsmessaging/v1/outbound/tel:+%s/requests

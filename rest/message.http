@@ -1,0 +1,29 @@
+### Tests des endpoints Message
+
+### CREATE - Créer un nouveau message (Cas valide)
+POST http://127.0.0.1:8088/api/v1/messages
+Content-Type: application/json
+
+{
+  "receiverPhone": ["221623684286"],
+  "messageContent": "Ceci est un message de test"
+}
+
+### READ - Obtenir tous les messages
+GET http://127.0.0.1:8088/api/v1/messages
+
+### BULK SMS - Envoi en masse via fichier Excel
+POST http://127.0.0.1:8088/api/v1/messages/bulk
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="contact1.xlsx"
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+< docs/contact1.xlsx
+------WebKitFormBoundary
+Content-Disposition: form-data; name="message"
+
+Bonjour {fullName}, votre salaire du mois de janvier 2025 est payé et votre compte sera crédité.
+Votre bulletin sera envoyé à l'adresse {email}
+------WebKitFormBoundary--
