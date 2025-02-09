@@ -2,8 +2,8 @@ package com.smshub.org.features.bureau.converter;
 
 import com.smshub.org.features.bureau.commands.CreateCommand;
 import com.smshub.org.features.bureau.commands.UpdateCommand;
-import com.smshub.org.features.bureau.dtos.DirectionDto;
-import com.smshub.org.features.bureau.model.Direction;
+import com.smshub.org.features.bureau.dtos.BureauDto;
+import com.smshub.org.features.bureau.model.Bureau;
 import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import com.smshub.org.features.utilisateur.repository.UtilisateurRepository;
@@ -17,17 +17,17 @@ import java.util.Optional;
 
 @Component
 @AllArgsConstructor
-public class DirectionConverter {
+public class BureauConverter {
     private final UtilisateurRepository utilisateurRepository;
 
-    public DirectionDto convert(Direction direction) {
-        return DirectionDto
+    public BureauDto convert(Bureau bureau) {
+        return BureauDto
                 .builder()
-                .id(direction.getId())
-                .responsable(convertUtilisateurToDto(direction.getResponsable())) // Convertir le responsable
-                .name(direction.getName())
-                .adresse(direction.getAdresse())
-                .personnel(direction.getPersonnels())
+                .id(bureau.getId())
+                .responsable(convertUtilisateurToDto(bureau.getResponsable())) // Convertir le responsable
+                .name(bureau.getName())
+                .adresse(bureau.getAdresse())
+                .personnel(bureau.getPersonnels())
                 .build();
     }
 
@@ -43,14 +43,14 @@ public class DirectionConverter {
     }
 
 
-    public Direction create(CreateCommand createCommand){
+    public Bureau create(CreateCommand createCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(createCommand.responsable());
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(createCommand.personnel());
 
         if (user.isEmpty()) {
             return null;
         }
-        return Direction
+        return Bureau
                 .builder()
                 .responsable(user.get())
                 .name(createCommand.name())
@@ -69,14 +69,14 @@ public class DirectionConverter {
         return users;
     }
 
-    public Direction update(UpdateCommand updateCommand){
+    public Bureau update(UpdateCommand updateCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(updateCommand.responsable());
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(updateCommand.personnel());
 
         if (user.isEmpty()) {
             return null;
         }
-        return Direction
+        return Bureau
                 .builder()
                 .id(updateCommand.id())
                 .responsable(user.get())

@@ -13,13 +13,13 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 @Entity
-@Table(name = "direction")
+@Table(name = "bureau")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class Direction extends BaseEntity {
+public class Bureau extends BaseEntity {
 
     @Column(nullable = false, unique = true, length = 100)
     private String name;
@@ -34,8 +34,8 @@ public class Direction extends BaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "direction_personnels", // Table de jointure explicite
-            joinColumns = @JoinColumn(name = "direction_id"),
+            name = "bureau_personnels", // Table de jointure explicite
+            joinColumns = @JoinColumn(name = "bureau_id"),
             inverseJoinColumns = @JoinColumn(name = "personnel_id")
     )
     private List<Utilisateur> personnels;

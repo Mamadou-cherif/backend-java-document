@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DirectionDto {
+public class BureauDto {
     private int id;
     private String name;
     private UtilisateurDto responsable;
