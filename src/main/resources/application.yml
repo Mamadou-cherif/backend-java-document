@@ -5,7 +5,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/docmanager
     username: postgres
     password: postgres
-    name: smshub
+    name: document_manager
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:

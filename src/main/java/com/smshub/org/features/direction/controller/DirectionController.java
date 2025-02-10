@@ -65,7 +65,7 @@ public class DirectionController {
         Direction direction = this.directionService.get(id);
         this.directionService.delete(direction);
         return ApiResponse.success(
-                String.format("Service de ID : %s supprimé avec succès", id)
+                String.format("Direction de ID : %s supprimé avec succès", id)
         );
     }
 }
