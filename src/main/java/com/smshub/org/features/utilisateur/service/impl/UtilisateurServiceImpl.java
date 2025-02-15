@@ -1,11 +1,12 @@
 package com.smshub.org.features.utilisateur.service.impl;
 
 import com.smshub.org.core.exceptions.ResourceNotFoundException;
+import com.smshub.org.features.utilisateur.commands.CreateCommand;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import com.smshub.org.features.utilisateur.repository.UtilisateurRepository;
 import com.smshub.org.features.utilisateur.service.UtilisateurService;
-import com.smshub.org.features.utilisateur.service.UtilisateurService;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +26,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return this.utilisateurRepository.save(utilisateur);
     }
 
-    @Async
     @Override
-    public void create(List<Utilisateur> utilisateurs) throws DataIntegrityViolationException {
-        this.utilisateurRepository.saveAll(utilisateurs);
+    public List<Utilisateur> create(List<Utilisateur> utilisateurs) throws DataIntegrityViolationException {
+       return this.utilisateurRepository.saveAll(utilisateurs);
     }
 
     @Override
@@ -46,6 +46,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public Utilisateur update(int id, Utilisateur utilisateur) {
         return this.utilisateurRepository.save(utilisateur);
     }
+
+
 
     @Override
     public void delete(Utilisateur utilisateur) {

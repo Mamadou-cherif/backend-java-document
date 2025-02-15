@@ -1,13 +1,16 @@
 package com.smshub.org.features.structure.converter;
 
+import com.smshub.org.features.service.model.Services;
 import com.smshub.org.features.structure.commands.CreateCommand;
 import com.smshub.org.features.structure.commands.UpdateCommand;
 import com.smshub.org.features.structure.dtos.StructureDto;
 import com.smshub.org.features.structure.model.Structure;
+import com.smshub.org.features.structure.repository.StructureRepository;
 import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import com.smshub.org.features.utilisateur.repository.UtilisateurRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -18,6 +21,7 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 public class StructureConverter {
+    @Autowired
     private final UtilisateurRepository utilisateurRepository;
 
     public StructureDto convert(Structure structure) {

@@ -1,6 +1,7 @@
 package com.smshub.org.features.bureau.model;
 
 import com.smshub.org.core.entities.BaseEntity;
+import com.smshub.org.features.direction.model.Direction;
 import com.smshub.org.features.service.model.Services;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import jakarta.persistence.*;
@@ -29,8 +30,8 @@ public class Bureau extends BaseEntity {
     private Utilisateur responsable;
 
     @ManyToOne
-    @JoinColumn(name = "service_id", nullable = false)
-    private Services service;
+    @JoinColumn(name = "direction_id", nullable = false)
+    private Direction direction;
 
     @ManyToMany
     @JoinTable(

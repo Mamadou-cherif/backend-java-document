@@ -4,10 +4,13 @@ import com.smshub.org.features.service.commands.CreateCommand;
 import com.smshub.org.features.service.commands.UpdateCommand;
 import com.smshub.org.features.service.dtos.ServiceDto;
 import com.smshub.org.features.service.model.Services;
+import com.smshub.org.features.structure.model.Structure;
+import com.smshub.org.features.structure.repository.StructureRepository;
 import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import com.smshub.org.features.utilisateur.repository.UtilisateurRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -18,7 +21,10 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 public class ServiceConverter {
+    @Autowired
     private final UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private final StructureRepository structureRepository;
 
     public ServiceDto convert(Services service) {
         return ServiceDto
@@ -45,6 +51,7 @@ public class ServiceConverter {
 
     public Services create(CreateCommand createCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(createCommand.responsable());
+        Optional<Structure> structure= this.structureRepository.findById(createCommand.structureId());
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(createCommand.personnel());
 
         if (user.isEmpty()) {
@@ -55,6 +62,7 @@ public class ServiceConverter {
                 .responsable(user.get())
                 .name(createCommand.name())
                 .adresse(createCommand.adresse())
+                .structure(structure.get())
                 .personnels(utilisateurs)
                 .createdAt(LocalDateTime.now())
                 .build();
