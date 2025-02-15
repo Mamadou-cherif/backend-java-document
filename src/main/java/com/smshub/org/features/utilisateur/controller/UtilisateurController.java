@@ -13,8 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-
 @ControllerAdvice
 @RestController
 @AllArgsConstructor
@@ -32,6 +30,17 @@ public class UtilisateurController {
                 "Utilisateur crée avec succès"
         );
     }
+
+
+    @PostMapping("/array")
+    public ApiResponse<List<UtilisateurDto>> createMany(@RequestBody @Validated List<CreateCommand> createUtilisateurCommand){
+        return ApiResponse. created(
+                this.utilisateurConverter.convert(this.utilisateurService.create(this.utilisateurConverter.create(createUtilisateurCommand))),
+                "Utilisateurs crées avec succès many"
+        );
+    }
+
+ 
 
 
     @GetMapping("/{id}")

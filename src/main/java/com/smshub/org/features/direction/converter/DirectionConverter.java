@@ -4,6 +4,8 @@ import com.smshub.org.features.direction.commands.CreateCommand;
 import com.smshub.org.features.direction.commands.UpdateCommand;
 import com.smshub.org.features.direction.dtos.DirectionDto;
 import com.smshub.org.features.direction.model.Direction;
+import com.smshub.org.features.service.model.Services;
+import com.smshub.org.features.service.repository.ServiceRepository;
 import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import com.smshub.org.features.utilisateur.repository.UtilisateurRepository;
@@ -19,6 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class DirectionConverter {
     private final UtilisateurRepository utilisateurRepository;
+    private final ServiceRepository serviceRepository;
 
     public DirectionDto convert(Direction direction) {
         return DirectionDto
@@ -45,6 +48,8 @@ public class DirectionConverter {
 
     public Direction create(CreateCommand createCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(createCommand.responsable());
+        Optional<Services> service= this.serviceRepository.findById(createCommand.serviceId());
+
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(createCommand.personnel());
 
         if (user.isEmpty()) {
@@ -54,6 +59,7 @@ public class DirectionConverter {
                 .builder()
                 .responsable(user.get())
                 .name(createCommand.name())
+                .service(service.get())
                 .adresse(createCommand.adresse())
                 .personnels(utilisateurs)
                 .createdAt(LocalDateTime.now())

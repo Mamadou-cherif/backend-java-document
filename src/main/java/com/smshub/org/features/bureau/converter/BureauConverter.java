@@ -4,10 +4,14 @@ import com.smshub.org.features.bureau.commands.CreateCommand;
 import com.smshub.org.features.bureau.commands.UpdateCommand;
 import com.smshub.org.features.bureau.dtos.BureauDto;
 import com.smshub.org.features.bureau.model.Bureau;
+import com.smshub.org.features.direction.model.Direction;
+import com.smshub.org.features.direction.repository.DirectionRepository;
+import com.smshub.org.features.structure.model.Structure;
 import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import com.smshub.org.features.utilisateur.repository.UtilisateurRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -18,7 +22,10 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 public class BureauConverter {
+    @Autowired
     private final UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private final DirectionRepository directionRepository;
 
     public BureauDto convert(Bureau bureau) {
         return BureauDto
@@ -46,8 +53,13 @@ public class BureauConverter {
     public Bureau create(CreateCommand createCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(createCommand.responsable());
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(createCommand.personnel());
+        Optional<Direction> direction= this.directionRepository.findById(createCommand.directionId());
 
         if (user.isEmpty()) {
+            return null;
+        }
+
+        if(direction.isEmpty()){
             return null;
         }
         return Bureau
@@ -55,6 +67,7 @@ public class BureauConverter {
                 .responsable(user.get())
                 .name(createCommand.name())
                 .adresse(createCommand.adresse())
+                .direction(direction.get())
                 .personnels(utilisateurs)
                 .createdAt(LocalDateTime.now())
                 .build();
