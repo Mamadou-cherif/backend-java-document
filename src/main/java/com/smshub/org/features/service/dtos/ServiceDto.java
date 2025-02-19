@@ -14,7 +14,7 @@ import java.util.List;
 public class ServiceDto {
     private int id;
     private String name;
-    private int structureId;
+    private String structure;
     private UtilisateurDto responsable;
     private String adresse;
     List<Utilisateur> personnel;

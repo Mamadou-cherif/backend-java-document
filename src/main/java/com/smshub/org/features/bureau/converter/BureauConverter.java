@@ -33,6 +33,7 @@ public class BureauConverter {
                 .id(bureau.getId())
                 .responsable(convertUtilisateurToDto(bureau.getResponsable())) // Convertir le responsable
                 .name(bureau.getName())
+                .directionId(bureau.getDirection().getId())
                 .adresse(bureau.getAdresse())
                 .personnel(bureau.getPersonnels())
                 .build();

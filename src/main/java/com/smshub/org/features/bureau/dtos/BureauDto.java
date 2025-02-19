@@ -14,7 +14,7 @@ import java.util.List;
 public class BureauDto {
     private int id;
     private String name;
-    private int bureauId;
+    private int directionId;
     private UtilisateurDto responsable;
     private String adresse;
     List<Utilisateur> personnel;

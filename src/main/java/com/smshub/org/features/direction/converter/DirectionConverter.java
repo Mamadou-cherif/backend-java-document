@@ -68,7 +68,6 @@ public class DirectionConverter {
 
     List<Utilisateur> getUtilisateurByArrayInArgument(List<Integer> array){
         List<Utilisateur> users = new ArrayList<>();
-
         array.forEach(a->{
             users.add(utilisateurRepository.findById(a).orElse(null));
         });

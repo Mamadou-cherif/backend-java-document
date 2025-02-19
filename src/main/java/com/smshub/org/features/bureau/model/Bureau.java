@@ -2,7 +2,6 @@ package com.smshub.org.features.bureau.model;
 
 import com.smshub.org.core.entities.BaseEntity;
 import com.smshub.org.features.direction.model.Direction;
-import com.smshub.org.features.service.model.Services;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -22,6 +22,7 @@ import java.util.List;
 public class BureauController {
     @Autowired
     private final BureauService bureauService;
+    @Autowired
     private final BureauConverter bureauConverter;
 
 
@@ -65,7 +66,7 @@ public class BureauController {
         Bureau bureau = this.bureauService.get(id);
         this.bureauService.delete(bureau);
         return ApiResponse.success(
-                String.format("Service de ID : %s supprimé avec succès", id)
+                String.format("Bureau de ID : %s supprimé avec succès", id)
         );
     }
 }

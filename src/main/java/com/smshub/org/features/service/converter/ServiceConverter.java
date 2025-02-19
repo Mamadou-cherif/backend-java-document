@@ -32,6 +32,7 @@ public class ServiceConverter {
                 .id(service.getId())
                 .responsable(convertUtilisateurToDto(service.getResponsable())) // Convertir le responsable
                 .name(service.getName())
+                .structure(service.getStructure().getName())
                 .adresse(service.getAdresse())
                 .personnel(service.getPersonnels())
                 .build();
