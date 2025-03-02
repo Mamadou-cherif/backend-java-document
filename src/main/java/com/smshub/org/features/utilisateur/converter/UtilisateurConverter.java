@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UtilisateurConverter {
 
-    public UtilisateurDto convert(Utilisateur utilisateur) {
+    public  UtilisateurDto convert(Utilisateur utilisateur) {
         return UtilisateurDto
                 .builder()
                 .id(utilisateur.getId())
@@ -25,7 +25,7 @@ public class UtilisateurConverter {
                 .build();
     }
 
-    public List<UtilisateurDto> convert(List<Utilisateur> utilisateur) {
+    public List<UtilisateurDto> convert1(List<Utilisateur> utilisateur) {
         return utilisateur.stream()
                 .map(this::convert)
                 .toList();

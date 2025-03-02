@@ -15,7 +15,7 @@ public class ServiceDto {
     private int id;
     private String name;
     private String structure;
-    private UtilisateurDto responsable;
+    private Utilisateur responsable;
     private String adresse;
     List<Utilisateur> personnel;
 }

@@ -6,6 +6,7 @@ import com.smshub.org.features.service.dtos.ServiceDto;
 import com.smshub.org.features.service.model.Services;
 import com.smshub.org.features.structure.model.Structure;
 import com.smshub.org.features.structure.repository.StructureRepository;
+import com.smshub.org.features.utilisateur.converter.UtilisateurConverter;
 import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import com.smshub.org.features.utilisateur.repository.UtilisateurRepository;
@@ -30,7 +31,7 @@ public class ServiceConverter {
         return ServiceDto
                 .builder()
                 .id(service.getId())
-                .responsable(convertUtilisateurToDto(service.getResponsable())) // Convertir le responsable
+                .responsable(service.getResponsable()) // Convertir le responsable
                 .name(service.getName())
                 .structure(service.getStructure().getName())
                 .adresse(service.getAdresse())
@@ -48,6 +49,18 @@ public class ServiceConverter {
                 .telephone(utilisateur.getTelephone())
                 .build();
     }
+
+//    private List<UtilisateurDto> convertUtilisateurToDto(List<Utilisateur> utilisateur) {
+//        if (utilisateur == null) {
+//            return null;
+//        }
+//
+//        return utilisateur
+//                .stream()
+//                .map(UtilisateurConverter::convert)
+//                .toList();
+//
+//    }
 
 
     public Services create(CreateCommand createCommand){

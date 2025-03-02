@@ -23,6 +23,8 @@ public class UtilisateurController {
     private final UtilisateurConverter utilisateurConverter;
 
 
+
+
     @PostMapping
     public ApiResponse<UtilisateurDto> create(@RequestBody @Validated CreateCommand createUtilisateurCommand){
         return ApiResponse. created(
@@ -35,7 +37,7 @@ public class UtilisateurController {
     @PostMapping("/array")
     public ApiResponse<List<UtilisateurDto>> createMany(@RequestBody @Validated List<CreateCommand> createUtilisateurCommand){
         return ApiResponse. created(
-                this.utilisateurConverter.convert(this.utilisateurService.create(this.utilisateurConverter.create(createUtilisateurCommand))),
+                this.utilisateurConverter.convert1(this.utilisateurService.create(this.utilisateurConverter.create(createUtilisateurCommand))),
                 "Utilisateurs crées avec succès many"
         );
     }
@@ -60,6 +62,26 @@ public class UtilisateurController {
         return ApiResponse.success(utilisateur, "");
     }
 
+//    @GetMapping("/user/{id}")
+//    public ApiResponse<List<UtilisateurDto>> getUserInStructure(@PathVariable int id) {
+//        List<UtilisateurDto> utilisateur = this.utilisateurService.getUserInStructure(id)
+//                .stream()
+//                .map(this.utilisateurConverter::convert)
+//                .toList();
+//        return ApiResponse.success(utilisateur, "");
+//    }
+
+//
+//    // Endpoint pour récupérer les utilisateurs d'une structure
+//    @GetMapping("/structure/{structureId}")
+//    public  ApiResponse<List<UtilisateurDto>>  getUtilisateursByStructureId(@PathVariable int structureId) {
+//         List<UtilisateurDto> users = this.utilisateurService.getUtilisateursByStructureId(structureId)
+//                 .stream()
+//                .map(this.utilisateurConverter::convert)
+//                .toList();
+//
+//        return ApiResponse.success(users, "");
+//    }
 
     @PutMapping("/{id}")
     public ApiResponse<UtilisateurDto> update(@PathVariable int id, @RequestBody UpdateCommand updateOrganizationCommand) throws ChangeSetPersister.NotFoundException {

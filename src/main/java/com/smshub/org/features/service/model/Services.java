@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,7 +35,7 @@ public class Services extends BaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "service_personnels", // Table de jointure explicite
+            name = "service_personnels",
             joinColumns = @JoinColumn(name = "service_id"),
             inverseJoinColumns = @JoinColumn(name = "personnel_id")
     )

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,7 @@ import java.util.List;
 @SuperBuilder
 public class Structure extends BaseEntity {
 
+
     @Column(nullable = false, unique = true, length = 100)
     private String name;
 
@@ -27,15 +29,17 @@ public class Structure extends BaseEntity {
     @JoinColumn(name = "responsable_id", nullable = false)
     private Utilisateur responsable;
 
+    // Relation Many-to-Many avec Utilisateur (côté inverse)
     @ManyToMany
     @JoinTable(
             name = "structure_personnels", // Table de jointure explicite
             joinColumns = @JoinColumn(name = "structure_id"),
             inverseJoinColumns = @JoinColumn(name = "personnel_id")
     )
-    private List<Utilisateur> personnels;
+    private List<Utilisateur> personnels = new ArrayList<>();
 
     @Column(length = 255)
     private String adresse;
+
 
 }

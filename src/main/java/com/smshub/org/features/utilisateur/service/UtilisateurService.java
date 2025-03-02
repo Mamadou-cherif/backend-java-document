@@ -17,6 +17,9 @@ public interface UtilisateurService {
 
     List<Utilisateur> create(List<Utilisateur> utilisateurs) throws DataIntegrityViolationException;
 
+    //List<Utilisateur> getUserInStructure(int structure_id) throws DataIntegrityViolationException;
+
+
     public Utilisateur get(int id);
     public void delete(Utilisateur typeDocument);
 }
