@@ -4,8 +4,7 @@ import com.smshub.org.core.helpers.response.ApiResponse;
 import com.smshub.org.features.document.commands.CreatDocumentCommand;
 import com.smshub.org.features.document.commands.UpdateDocumentCommand;
 import com.smshub.org.features.document.converter.DocumentConverter;
-import com.smshub.org.features.document.dtos.DocumentDto;
-import com.smshub.org.features.document.dtos.DocumentListDto;
+import com.smshub.org.features.document.dtos.*;
 import com.smshub.org.features.document.model.Document;
 import com.smshub.org.features.document.service.DocumentService;
 import jakarta.transaction.Transactional;
@@ -38,9 +37,46 @@ public class DocumentController {
                 DocumentConverter.convert(this.documentService.add(this.documentConverter.create(document)))
                 ,
                 "L'ajout effectué avec succès"
-
         );
     }
+
+    @PostMapping("/structure")
+    public ApiResponse<DocumentStructureDto> addStructureDocument(@RequestBody CreatDocumentCommand document) {
+        return ApiResponse.success(
+                DocumentConverter.convertStructureDocument(this.documentService.add(this.documentConverter.createStructureDocument(document)))
+                ,
+                "L'ajout de document par structure est effectué avec succès"
+        );
+    }
+
+
+    @PostMapping("/service")
+    public ApiResponse<DocumentServiceDto> addServiceDocument(@RequestBody CreatDocumentCommand document) {
+        return ApiResponse.success(
+                DocumentConverter.convertServiceDocument(this.documentService.add(this.documentConverter.createServiceDocument(document)))
+                ,
+                "L'ajout de document par service est effectué avec succès"
+        );
+    }
+
+    @PostMapping("/direction")
+    public ApiResponse<DocumentDirectionDto> addDirectionDocument(@RequestBody CreatDocumentCommand document) {
+        return ApiResponse.success(
+                DocumentConverter.convertDirectionDocument(this.documentService.add(this.documentConverter.createDirectionDocument(document)))
+                ,
+                "L'ajout de document par direction est effectué avec succès"
+        );
+    }
+
+    @PostMapping("/bureau")
+    public ApiResponse<DocumentBureauDto> addBureauDocument(@RequestBody CreatDocumentCommand document) {
+        return ApiResponse.success(
+                DocumentConverter.convertBureauDocument(this.documentService.add(this.documentConverter.createBureauDocument(document)))
+                ,
+                "L'ajout de document par bureau est effectué avec succès"
+        );
+    }
+
 
 
     @GetMapping("/containing")

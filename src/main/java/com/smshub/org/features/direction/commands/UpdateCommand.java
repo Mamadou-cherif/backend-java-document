@@ -1,11 +1,11 @@
-package com.smshub.org.features.service.commands;
+package com.smshub.org.features.direction.commands;
 
 import java.util.List;
 
-public record CreateCommand(
+public record UpdateCommand(
+        int id,
         String name,
         int responsable,
-        int structureId,
         List<Integer> personnel,
         String adresse
 ) {}

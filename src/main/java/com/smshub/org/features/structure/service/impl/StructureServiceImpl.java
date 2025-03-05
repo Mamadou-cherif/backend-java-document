@@ -4,6 +4,7 @@ import com.smshub.org.core.exceptions.ResourceNotFoundException;
 import com.smshub.org.features.structure.model.Structure;
 import com.smshub.org.features.structure.repository.StructureRepository;
 import com.smshub.org.features.structure.service.StructureService;
+import com.smshub.org.features.utilisateur.model.Utilisateur;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -51,4 +52,7 @@ public class StructureServiceImpl implements StructureService {
         this.structureRepository.delete(structure);
     }
 
+    public List<Utilisateur> getPersonnelsByStructure(Long structureId) {
+        return structureRepository.findPersonnelsByStructureId(structureId);
+    }
 }

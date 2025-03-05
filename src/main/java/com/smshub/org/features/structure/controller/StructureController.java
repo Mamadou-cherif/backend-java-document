@@ -6,6 +6,9 @@ import com.smshub.org.features.structure.converter.StructureConverter;
 import com.smshub.org.features.structure.dtos.StructureDto;
 import com.smshub.org.features.structure.model.Structure;
 import com.smshub.org.features.structure.service.StructureService;
+import com.smshub.org.features.utilisateur.converter.UtilisateurConverter;
+import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
+import com.smshub.org.features.utilisateur.model.Utilisateur;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -23,6 +26,7 @@ public class StructureController {
     @Autowired
     private final StructureService structureService;
     private final StructureConverter structureConverter;
+    private final UtilisateurConverter utilisateurConverter;
 
 
     @PostMapping
@@ -67,5 +71,15 @@ public class StructureController {
         return ApiResponse.success(
                 String.format("Service de ID : %s supprimé avec succès", id)
         );
+    }
+
+    @GetMapping("/{id}/personnels")
+    public ApiResponse<List<UtilisateurDto>> getPersonnels(@PathVariable Long id) {
+        //structureService.getPersonnelsByStructure(id)
+       List<UtilisateurDto> utilisateur = structureService.getPersonnelsByStructure(id)
+                .stream()
+                .map(this.utilisateurConverter::convert)
+                .toList();
+        return ApiResponse.success(utilisateur, "");
     }
 }

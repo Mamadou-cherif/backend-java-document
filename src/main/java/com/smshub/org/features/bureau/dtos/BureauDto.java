@@ -1,4 +1,4 @@
-package com.smshub.org.features.service.dtos;
+package com.smshub.org.features.bureau.dtos;
 
 import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
@@ -11,11 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ServiceDto {
+public class BureauDto {
     private int id;
     private String name;
-    private String structure;
-    private Utilisateur responsable;
+    private int directionId;
+    private UtilisateurDto responsable;
     private String adresse;
     List<Utilisateur> personnel;
 }

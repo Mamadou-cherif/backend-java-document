@@ -1,12 +1,12 @@
-package com.smshub.org.features.service.converter;
+package com.smshub.org.features.bureau.converter;
 
-import com.smshub.org.features.service.commands.CreateCommand;
-import com.smshub.org.features.service.commands.UpdateCommand;
-import com.smshub.org.features.service.dtos.ServiceDto;
-import com.smshub.org.features.service.model.Services;
+import com.smshub.org.features.bureau.commands.CreateCommand;
+import com.smshub.org.features.bureau.commands.UpdateCommand;
+import com.smshub.org.features.bureau.dtos.BureauDto;
+import com.smshub.org.features.bureau.model.Bureau;
+import com.smshub.org.features.direction.model.Direction;
+import com.smshub.org.features.direction.repository.DirectionRepository;
 import com.smshub.org.features.structure.model.Structure;
-import com.smshub.org.features.structure.repository.StructureRepository;
-import com.smshub.org.features.utilisateur.converter.UtilisateurConverter;
 import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import com.smshub.org.features.utilisateur.repository.UtilisateurRepository;
@@ -21,21 +21,21 @@ import java.util.Optional;
 
 @Component
 @AllArgsConstructor
-public class ServiceConverter {
+public class BureauConverter {
     @Autowired
     private final UtilisateurRepository utilisateurRepository;
     @Autowired
-    private final StructureRepository structureRepository;
+    private final DirectionRepository directionRepository;
 
-    public ServiceDto convert(Services service) {
-        return ServiceDto
+    public BureauDto convert(Bureau bureau) {
+        return BureauDto
                 .builder()
-                .id(service.getId())
-                .responsable(service.getResponsable()) // Convertir le responsable
-                .name(service.getName())
-                .structure(service.getStructure().getName())
-                .adresse(service.getAdresse())
-                .personnel(service.getPersonnels())
+                .id(bureau.getId())
+                .responsable(convertUtilisateurToDto(bureau.getResponsable())) // Convertir le responsable
+                .name(bureau.getName())
+                .directionId(bureau.getDirection().getId())
+                .adresse(bureau.getAdresse())
+                .personnel(bureau.getPersonnels())
                 .build();
     }
 
@@ -50,33 +50,25 @@ public class ServiceConverter {
                 .build();
     }
 
-//    private List<UtilisateurDto> convertUtilisateurToDto(List<Utilisateur> utilisateur) {
-//        if (utilisateur == null) {
-//            return null;
-//        }
-//
-//        return utilisateur
-//                .stream()
-//                .map(UtilisateurConverter::convert)
-//                .toList();
-//
-//    }
 
-
-    public Services create(CreateCommand createCommand){
+    public Bureau create(CreateCommand createCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(createCommand.responsable());
-        Optional<Structure> structure= this.structureRepository.findById(createCommand.structureId());
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(createCommand.personnel());
+        Optional<Direction> direction= this.directionRepository.findById(createCommand.directionId());
 
         if (user.isEmpty()) {
             return null;
         }
-        return Services
+
+        if(direction.isEmpty()){
+            return null;
+        }
+        return Bureau
                 .builder()
                 .responsable(user.get())
                 .name(createCommand.name())
                 .adresse(createCommand.adresse())
-                .structure(structure.get())
+                .direction(direction.get())
                 .personnels(utilisateurs)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -91,14 +83,14 @@ public class ServiceConverter {
         return users;
     }
 
-    public Services update(UpdateCommand updateCommand){
+    public Bureau update(UpdateCommand updateCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(updateCommand.responsable());
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(updateCommand.personnel());
 
         if (user.isEmpty()) {
             return null;
         }
-        return Services
+        return Bureau
                 .builder()
                 .id(updateCommand.id())
                 .responsable(user.get())

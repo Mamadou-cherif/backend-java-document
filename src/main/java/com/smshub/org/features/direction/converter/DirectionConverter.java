@@ -1,17 +1,15 @@
-package com.smshub.org.features.service.converter;
+package com.smshub.org.features.direction.converter;
 
-import com.smshub.org.features.service.commands.CreateCommand;
-import com.smshub.org.features.service.commands.UpdateCommand;
-import com.smshub.org.features.service.dtos.ServiceDto;
+import com.smshub.org.features.direction.commands.CreateCommand;
+import com.smshub.org.features.direction.commands.UpdateCommand;
+import com.smshub.org.features.direction.dtos.DirectionDto;
+import com.smshub.org.features.direction.model.Direction;
 import com.smshub.org.features.service.model.Services;
-import com.smshub.org.features.structure.model.Structure;
-import com.smshub.org.features.structure.repository.StructureRepository;
-import com.smshub.org.features.utilisateur.converter.UtilisateurConverter;
+import com.smshub.org.features.service.repository.ServiceRepository;
 import com.smshub.org.features.utilisateur.dtos.UtilisateurDto;
 import com.smshub.org.features.utilisateur.model.Utilisateur;
 import com.smshub.org.features.utilisateur.repository.UtilisateurRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -21,21 +19,18 @@ import java.util.Optional;
 
 @Component
 @AllArgsConstructor
-public class ServiceConverter {
-    @Autowired
+public class DirectionConverter {
     private final UtilisateurRepository utilisateurRepository;
-    @Autowired
-    private final StructureRepository structureRepository;
+    private final ServiceRepository serviceRepository;
 
-    public ServiceDto convert(Services service) {
-        return ServiceDto
+    public DirectionDto convert(Direction direction) {
+        return DirectionDto
                 .builder()
-                .id(service.getId())
-                .responsable(service.getResponsable()) // Convertir le responsable
-                .name(service.getName())
-                .structure(service.getStructure().getName())
-                .adresse(service.getAdresse())
-                .personnel(service.getPersonnels())
+                .id(direction.getId())
+                .responsable(convertUtilisateurToDto(direction.getResponsable())) // Convertir le responsable
+                .name(direction.getName())
+                .adresse(direction.getAdresse())
+                .personnel(direction.getPersonnels())
                 .build();
     }
 
@@ -50,33 +45,22 @@ public class ServiceConverter {
                 .build();
     }
 
-//    private List<UtilisateurDto> convertUtilisateurToDto(List<Utilisateur> utilisateur) {
-//        if (utilisateur == null) {
-//            return null;
-//        }
-//
-//        return utilisateur
-//                .stream()
-//                .map(UtilisateurConverter::convert)
-//                .toList();
-//
-//    }
 
-
-    public Services create(CreateCommand createCommand){
+    public Direction create(CreateCommand createCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(createCommand.responsable());
-        Optional<Structure> structure= this.structureRepository.findById(createCommand.structureId());
+        Optional<Services> service= this.serviceRepository.findById(createCommand.serviceId());
+
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(createCommand.personnel());
 
         if (user.isEmpty()) {
             return null;
         }
-        return Services
+        return Direction
                 .builder()
                 .responsable(user.get())
                 .name(createCommand.name())
+                .service(service.get())
                 .adresse(createCommand.adresse())
-                .structure(structure.get())
                 .personnels(utilisateurs)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -84,21 +68,20 @@ public class ServiceConverter {
 
     List<Utilisateur> getUtilisateurByArrayInArgument(List<Integer> array){
         List<Utilisateur> users = new ArrayList<>();
-
         array.forEach(a->{
             users.add(utilisateurRepository.findById(a).orElse(null));
         });
         return users;
     }
 
-    public Services update(UpdateCommand updateCommand){
+    public Direction update(UpdateCommand updateCommand){
         Optional<Utilisateur> user= this.utilisateurRepository.findById(updateCommand.responsable());
         List<Utilisateur> utilisateurs = this.getUtilisateurByArrayInArgument(updateCommand.personnel());
 
         if (user.isEmpty()) {
             return null;
         }
-        return Services
+        return Direction
                 .builder()
                 .id(updateCommand.id())
                 .responsable(user.get())

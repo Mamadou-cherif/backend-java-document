@@ -1,11 +1,11 @@
-package com.smshub.org.features.service.commands;
+package com.smshub.org.features.bureau.commands;
 
 import java.util.List;
 
 public record CreateCommand(
         String name,
         int responsable,
-        int structureId,
+        int directionId,
         List<Integer> personnel,
         String adresse
 ) {}
