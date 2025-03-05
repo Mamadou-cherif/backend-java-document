@@ -1,11 +1,10 @@
 spring:
   application:
-    name: document_manager
+    name: ${SPRING_APP_NAME}
   datasource:
-    url:
-    username: postgres
-    password: postgres
-    name: document_manager
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
@@ -15,13 +14,14 @@ spring:
       ddl-auto: update
     show-sql: true
   rabbitmq:
-    virtual-host: smshub
-    host: localhost
-    port: 5672
-    username: smshub_user
-    password: 123456
+    virtual-host: ${RABBITMQ_VHOST}
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
+
 server:
-  port: 8090
+  port: ${SERVER_PORT}
 
 springdoc:
   api-docs:
@@ -40,16 +40,17 @@ resilience4j:
         limitForPeriod: 4
         limitRefreshPeriod: 1s
         timeoutDuration: 0
+
 orange:
   sms:
     client:
-      id: ph53VawqfsAxnexc9VRsm1Q2Gh57EZDl
-      secret: nrYAFbVr6Zyt0ieWjH4PYnGPvEkAXokGyZeBTqkXkxnV
+      id: ${ORANGE_SMS_CLIENT_ID}
+      secret: ${ORANGE_SMS_CLIENT_SECRET}
     auth:
-      header: cGg1M1Zhd3Fmc0F4bmV4YzlWUnNtMVEyR2g1N0VaRGw6bnJZQUZiVnI2Wnl0MGllV2pINFBZbkdQdkVrQVhva0d5WmVCVHFrWGt4blY=
+      header: ${ORANGE_SMS_AUTH_HEADER}
     sender:
-      number: 224623684286
+      number: ${ORANGE_SMS_SENDER_NUMBER}
     token:
-      url: https://api.orange.com/oauth/v3/token
+      url: ${ORANGE_SMS_TOKEN_URL}
     send:
-      url: https://api.orange.com/smsmessaging/v1/outbound/tel:+%s/requests
+      url: ${ORANGE_SMS_SEND_URL}
