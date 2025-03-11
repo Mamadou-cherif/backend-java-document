@@ -9,7 +9,7 @@ pipeline {
         DOCKER_USER = credentials('docker_user')
         DOCKER_TOKEN = credentials('docker_token')
     }
-    //git status"
+    //git status."
     stages {
         stage('checkout') {
             steps {
