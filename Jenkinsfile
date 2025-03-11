@@ -9,7 +9,7 @@ pipeline {
         DOCKER_USER = credentials('docker_user')
         DOCKER_TOKEN = credentials('docker_token')
     }
-
+    //git status"
     stages {
         stage('checkout') {
             steps {
@@ -19,7 +19,7 @@ pipeline {
                 echo "checked out ${env.BRANCH_NAME}"
             }
         }
-        
+
          stage('Build') {
             steps {
                 sh "mvn clean package -DskipTests"
