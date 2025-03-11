@@ -7,8 +7,8 @@ pipeline {
 
     environment {
         
-        DOCKER_USER = credentials('docker_user')
-        DOCKER_TOKEN = credentials('docker_token')
+        DOCKER_USER = 'cherifbarry'
+        DOCKER_TOKEN = 'dckr_pat_6WaYgGJhuzsYajZ946AE6RMAwpI'
     }
     //git status."
     stages {
