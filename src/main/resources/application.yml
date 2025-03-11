@@ -2,7 +2,7 @@ spring:
   application:
     name: document_manager
   datasource:
-    url: jdbc:postgresql://localhost:5432/docmanager
+    url: jdbc:postgresql://db:5432/docmanager
     username: postgres
     password: postgres
     name: document_manager
