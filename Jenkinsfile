@@ -32,7 +32,7 @@ pipeline {
                     archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
                 }
             }
-        }
+        } 
 
         stage('Dockerize') {
             steps {
