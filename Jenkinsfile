@@ -17,6 +17,7 @@ pipeline {
                 // Get some code from a GitHub repository
                git branch: 'feat/docker', url: 'https://github.com/Mamadou-cherif/backend-java-document.git'
                 echo "checked out ${env.BRANCH_NAME}"
+                echo "DOCKER_USER: ${DOCKER_USER}"
             }
         }
 
