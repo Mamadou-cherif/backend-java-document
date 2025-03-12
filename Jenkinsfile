@@ -13,67 +13,65 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                // echo "____________________________CHECKOUT MAIN ____________________________________"
-                // // Get some code from a GitHub repository
-                // git branch: 'feat/docker', url: 'https://github.com/Mamadou-cherif/backend-java-document.git'
-                // echo "checked out ${env.BRANCH_NAME}"
-                echo "DOCKER_USER: ${DOCKER_USER}"
+                echo "____________________________CHECKOUT MAIN ____________________________________"
+                // Get some code from a GitHub repository
+               git branch: 'feat/docker', url: 'https://github.com/Mamadou-cherif/backend-java-document.git'
+                echo "checked out ${env.BRANCH_NAME}"
                 
             }
         }
 
-    //      stage('Build') {
-    //         steps {
-    //             sh "mvn clean package -DskipTests"
-    //         }
+         stage('Build') {
+            steps {
+                sh "mvn clean package -DskipTests"
+            }
 
-    //         post{
+            post{
 
-    //             success{
-    //                 archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
-    //             }
-    //         }
-    //     } 
+                success{
+                    archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+                }
+            }
+        } 
 
-    //     stage('Dockerize') {
-    //         steps {
-    //             script{
-    //                 def dockerImage = "${DOCKER_USER}/spring-app"
-    //                 echo "________________________ Build docker image : ${dockerImage}__________________"
-    //                 sh "docker build -f Dockerfile -t ${dockerImage} ."
-    //             }
-    //         }
-    //     }
+        stage('Dockerize') {
+            steps {
+                script{
+                    def dockerImage = "${DOCKER_USER}/spring-app"
+                    echo "________________________ Build docker image : ${dockerImage}__________________"
+                    sh "docker build -f Dockerfile -t ${dockerImage} ."
+                }
+            }
+        }
 
-    //     stage('Docker Publish') {
-    //         steps {
-    //             script{
-    //                 def dockerImage = "${DOCKER_USER}/spring-app"
-    //                 sh """
-    //                 echo ${DOCKER_TOKEN} | docker login --username ${DOCKER_USER} --password-stdin
-    //                 docker push ${dockerImage}
-    //                 """
-    //             }
-    //         }
-    //     }
-
-
-    //   stage('Docker Compose') {
-    //         steps {
-    //             script{
-    //                 sh """
-    //                 docker compose down
-    //                 docker compose up -d
-    //                 """
-    //             }
-    //         }
-    //     }
+        stage('Docker Publish') {
+            steps {
+                script{
+                    def dockerImage = "${DOCKER_USER}/spring-app"
+                    sh """
+                    echo ${DOCKER_TOKEN} | docker login --username ${DOCKER_USER} --password-stdin
+                    docker push ${dockerImage}
+                    """
+                }
+            }
+        }
 
 
+      stage('Docker Compose') {
+            steps {
+                script{
+                    sh """
+                    docker compose down
+                    docker compose up -d
+                    """
+                }
+            }
+        }
 
 
 
 
-    // 
+
+
     }
 }
