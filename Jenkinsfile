@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('Docker Publish on docker') {
+        stage('Docker Publish on docker with jenkins') {
             steps {
                 script{
                     def dockerImage = "${DOCKER_USER}/spring-app"
