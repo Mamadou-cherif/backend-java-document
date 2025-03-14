@@ -2,7 +2,7 @@
 FROM maven:3.9-eclipse-temurin-21 AS builder
 WORKDIR /app
 
-# Copier uniquement le fichier pom.xml pour optimiser le cache Maven
+# Copier uniquement le fichier pom.xml pour optimiser le cache Maven ici
 COPY pom.xml ./
 RUN mvn dependency:go-offline
 
