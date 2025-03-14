@@ -37,7 +37,7 @@ pipeline {
 
             steps {
                 script{
-                    def dockerImage = "${DOCKER_USER}/spring-app: ${env.BRANCH_NAME}"
+                    def dockerImage = "${DOCKER_USER}/spring-app:${env.BRANCH_NAME}"
                     echo "________________________ Build docker image : ${dockerImage}__________________"
                     sh "docker build -f Dockerfile -t ${dockerImage} ."
                 }
