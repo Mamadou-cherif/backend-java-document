@@ -34,7 +34,7 @@ public class Bureau extends BaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "bureau_personnels", // Table de jointure explicite
+            name = "bureau_personnels", // tTable de jointure explicite
             joinColumns = @JoinColumn(name = "bureau_id"),
             inverseJoinColumns = @JoinColumn(name = "personnel_id")
     )
