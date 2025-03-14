@@ -24,7 +24,6 @@ pipeline {
                 sh "mvn clean package -DskipTests"
             }
             post{
-
                 success{
                     archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
                 }
