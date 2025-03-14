@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo "____________________________CHECKOUT MAIN ____________________________________"
                 // Get some code from a GitHub repository
-               git branch: 'feat/docker', url: 'https://github.com/Mamadou-cherif/backend-java-document.git'
+              // git branch: 'feat/docker', url: 'https://github.com/Mamadou-cherif/backend-java-document.git'
                 echo "checked out ${env.BRANCH_NAME}"
             }
         }
@@ -25,25 +25,33 @@ pipeline {
             }
             post{
                 success{
-                    archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+                    archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
                 }
             }
         } 
 
-        stage('Dockerize') {
+        stage('Dockerize develop') {
+        when {
+          branch 'develop'
+        }
+
             steps {
                 script{
-                    def dockerImage = "${DOCKER_USER}/spring-app"
+                    def dockerImage = "${DOCKER_USER}/spring-app: ${env.BRANCH_NAME}"
                     echo "________________________ Build docker image : ${dockerImage}__________________"
                     sh "docker build -f Dockerfile -t ${dockerImage} ."
                 }
             }
         }
 
-        stage('Docker Publish on docker with jenkins') {
+        stage('Docker Publish develop') {
+            when {
+              branch 'develop'
+            }
+
             steps {
                 script{
-                    def dockerImage = "${DOCKER_USER}/spring-app"
+                    def dockerImage = "${DOCKER_USER}/spring-app:${env.BRANCH_NAME}"
                     sh """
                     echo ${DOCKER_TOKEN} | docker login --username ${DOCKER_USER} --password-stdin
                     docker push ${dockerImage}
@@ -53,6 +61,10 @@ pipeline {
         }
 
       stage('Docker Compose') {
+          when {
+            branch 'develop'
+          }
+
             steps {
                 script{
                     sh """
