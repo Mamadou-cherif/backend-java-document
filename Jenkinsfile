@@ -29,12 +29,18 @@ pipeline {
                 }
             }
         } 
-
-        stage('Dockerize develop only') {
-        when {
-          branch 'develop'
+        stage('Down postgres-db before starting'){
+            steps{
+                sh "docker stop postgres-db";
+            }
         }
-
+        stage('Dockerize develop only') {
+            when {
+              branch 'develop'
+            }
+            steps{
+                 sh "docker stop postgres-db";
+            }
             steps {
                 script{
                     def dockerImage = "${DOCKER_USER}/spring-app:${env.BRANCH_NAME}"
