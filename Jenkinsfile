@@ -15,49 +15,39 @@ pipeline {
             steps {
                 echo "____________________________CHECKOUT MAIN ____________________________________"
                 // Get some code from a GitHub repository
-              // git branch: 'feat/docker', url: 'https://github.com/Mamadou-cherif/backend-java-document.git'
+               git branch: 'feat/docker', url: 'https://github.com/Mamadou-cherif/backend-java-document.git'
                 echo "checked out ${env.BRANCH_NAME}"
             }
         }
+
          stage('Build') {
             steps {
                 sh "mvn clean package -DskipTests"
             }
+
             post{
+
                 success{
-                    archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+                    archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
                 }
             }
-        } 
-        stage('Down postgres-db before starting'){
-            steps{
-                sh "docker stop postgres-db";
-            }
         }
-        stage('Dockerize develop only') {
-            when {
-              branch 'develop'
-            }
-            steps{
-                 sh "docker stop postgres-db";
-            }
+
+        stage('Dockerize') {
             steps {
                 script{
-                    def dockerImage = "${DOCKER_USER}/spring-app:${env.BRANCH_NAME}"
+                    def dockerImage = "${DOCKER_USER}/spring-app"
                     echo "________________________ Build docker image : ${dockerImage}__________________"
+                    sh "docker stop postgres-db"
                     sh "docker build -f Dockerfile -t ${dockerImage} ."
                 }
             }
         }
 
-        stage('Docker Publish develop') {
-            when {
-              branch 'develop'
-            }
-
+        stage('Docker Publish on docker with jenkins') {
             steps {
                 script{
-                    def dockerImage = "${DOCKER_USER}/spring-app:${env.BRANCH_NAME}"
+                    def dockerImage = "${DOCKER_USER}/spring-app"
                     sh """
                     echo ${DOCKER_TOKEN} | docker login --username ${DOCKER_USER} --password-stdin
                     docker push ${dockerImage}
@@ -66,11 +56,8 @@ pipeline {
             }
         }
 
-      stage('Docker Compose') {
-          when {
-            branch 'develop'
-          }
 
+      stage('Docker Compose') {
             steps {
                 script{
                     sh """
@@ -80,5 +67,11 @@ pipeline {
                 }
             }
         }
+
+
+
+
+
+
     }
 }
