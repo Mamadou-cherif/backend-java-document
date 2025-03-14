@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class BureauDto {
-    //Commentaire
+    //Commentaires
     private int id;
     private String name;
     private int directionId;

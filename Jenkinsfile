@@ -34,6 +34,10 @@ pipeline {
         }
 
         stage('Dockerize') {
+            when {
+              branch 'develop'
+            }
+
             steps {
                 script{
                     def dockerImage = "${DOCKER_USER}/spring-app"
@@ -45,6 +49,10 @@ pipeline {
         }
 
         stage('Docker Publish on docker with jenkins') {
+        when {
+          branch 'develop'
+        }
+
             steps {
                 script{
                     def dockerImage = "${DOCKER_USER}/spring-app"
@@ -58,6 +66,7 @@ pipeline {
 
 
       stage('Docker Compose') {
+
             steps {
                 script{
                     sh """
