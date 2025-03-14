@@ -62,26 +62,7 @@ public class UtilisateurController {
         return ApiResponse.success(utilisateur, "");
     }
 
-//    @GetMapping("/user/{id}")
-//    public ApiResponse<List<UtilisateurDto>> getUserInStructure(@PathVariable int id) {
-//        List<UtilisateurDto> utilisateur = this.utilisateurService.getUserInStructure(id)
-//                .stream()
-//                .map(this.utilisateurConverter::convert)
-//                .toList();
-//        return ApiResponse.success(utilisateur, "");
-//    }
 
-//
-//    // Endpoint pour récupérer les utilisateurs d'une structure
-//    @GetMapping("/structure/{structureId}")
-//    public  ApiResponse<List<UtilisateurDto>>  getUtilisateursByStructureId(@PathVariable int structureId) {
-//         List<UtilisateurDto> users = this.utilisateurService.getUtilisateursByStructureId(structureId)
-//                 .stream()
-//                .map(this.utilisateurConverter::convert)
-//                .toList();
-//
-//        return ApiResponse.success(users, "");
-//    }
 
     @PutMapping("/{id}")
     public ApiResponse<UtilisateurDto> update(@PathVariable int id, @RequestBody UpdateCommand updateOrganizationCommand) throws ChangeSetPersister.NotFoundException {
@@ -99,4 +80,4 @@ public class UtilisateurController {
                 String.format("Utilisateur de ID : %s supprimé avec succès", id)
         );
     }
-}
+} 
