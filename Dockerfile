@@ -14,7 +14,7 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
-# Copier uniquement le fichier JAR compilé depuis l'étape précédente
+# Copier uniquement lee fichier JAR compilé depuis l'étape précédente
 COPY --from=builder /app/target/*.jar app.jar
 
 # Exposer le port de l'application
