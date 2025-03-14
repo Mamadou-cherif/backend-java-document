@@ -19,12 +19,10 @@ pipeline {
                 echo "checked out ${env.BRANCH_NAME}"
             }
         }
-
          stage('Build') {
             steps {
                 sh "mvn clean package -DskipTests"
             }
-
             post{
 
                 success{
