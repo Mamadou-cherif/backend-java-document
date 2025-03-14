@@ -30,7 +30,7 @@ pipeline {
             }
         } 
 
-        stage('Dockerize develop') {
+        stage('Dockerize develop only') {
         when {
           branch 'develop'
         }
