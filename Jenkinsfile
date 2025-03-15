@@ -21,6 +21,7 @@ pipeline {
         }
 
          stage('Build') {
+
             steps {
                 sh "mvn clean package -DskipTests"
             }
@@ -31,9 +32,10 @@ pipeline {
                     archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
                 }
             }
-        } 
+        }
 
         stage('Dockerize') {
+            when { branch 'develop' }
             steps {
                 script{
                     def dockerImage = "${DOCKER_USER}/spring-app"
@@ -44,6 +46,8 @@ pipeline {
         }
 
         stage('Docker Publish on docker with jenkins') {
+            when { branch 'develop' }
+
             steps {
                 script{
                     def dockerImage = "${DOCKER_USER}/spring-app"
@@ -57,14 +61,42 @@ pipeline {
 
 
       stage('Docker Compose') {
+            when { branch 'develop' }
+
             steps {
-                script{
-                    sh """
-                    docker compose down
-                    docker compose up -d
-                    """
+                    script {
+                        def postgresExists = sh(script: "docker ps -a --filter 'name=postgres-db' --format '{{.Names}}'", returnStdout: true).trim()
+                        def postgresRunning = sh(script: "docker ps --filter 'name=postgres-db' --format '{{.Names}}'", returnStdout: true).trim()
+                        def springRunning = sh(script: "docker ps --filter 'name=spring-app' --format '{{.Names}}'", returnStdout: true).trim()
+
+                        if (postgresExists) {
+                            if (!postgresRunning) {
+                                echo "Le conteneur postgres-db existe mais est arrêté. Redémarrage..."
+                                sh "docker start postgres-db"
+                            } else {
+                                echo "Le conteneur postgres-db est déjà actif."
+                            }
+                        } else {
+                            echo "Le conteneur postgres-db n'existe pas. Lancement complet..."
+                            sh "docker compose up -d"
+                        }
+
+                        if (!springRunning) {
+                            echo "Le conteneur spring-app n'est pas en cours d'exécution. Lancement..."
+                            sh "docker compose up -d spring-app"
+                        } else {
+                            echo "Le conteneur spring-app tourne déjà."
+                        }
+                    }
                 }
-            }
+//             steps {
+//                 script{
+//                     sh """
+//                     docker compose down
+//                     docker compose up -d
+//                     """
+//                 }
+//             }
         }
 
 
