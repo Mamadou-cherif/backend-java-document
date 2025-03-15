@@ -66,28 +66,14 @@ pipeline {
 
       stage('Docker Compose') {
 
-//             steps {
-//                 script{
-//                     sh """
-//                     docker compose down
-//                     docker compose up -d
-//                     """
-//                 }
-//             }
-             steps {
-                    script {
-                        def postgresRunning = sh(script: "docker ps --filter 'name=postgres-db' --format '{{.Names}}'", returnStdout: true).trim()
-
-                        if (postgresRunning) {
-                            echo "Le conteneur postgres-db est déjà en cours d'exécution. Aucun redémarrage nécessaire."
-
-                            sh "docker compose up -d spring-app"
-                        } else {
-                            echo "Le conteneur postgres-db est arrêté ou inexistant. Lancement complet..."
-                            sh "docker compose up -d"  // Démarre tout si PostgreSQL n'existe pas
-                        }
-                    }
+            steps {
+                script{
+                    sh """
+                    docker compose down
+                    docker compose up -d
+                    """
                 }
+            }
         }
 
 
