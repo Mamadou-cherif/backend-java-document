@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class BureauDto {
+    // ajout d'ici
     //Commentaire
     private int id;
     private String name;
